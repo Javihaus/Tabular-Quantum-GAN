@@ -29,7 +29,7 @@ A Quantum Generative Adversarial Network (QGAN) implementation, specifically uti
 ## Usage
 
 1. **Prepare the Data**:
-   The circles dataset from Scikit-learn is used as the target data. The data is preprocessed and normalized to ensure effective training.
+   The circles dataset from Scikit-learn is used as the target data. The data is preprocessed and normalized to ensure effective training. In the code you can find also the dataset Swiss roll (Machine Learning: An Algorithmic Perspective”, 2nd edition, Chapter 6, 2014).
 
     ```python
     from sklearn.datasets import make_circles
@@ -72,6 +72,13 @@ You can adjust the number of layers and types of quantum gates (marked as option
         return qml.probs(wires=list(range(n_qubits)))
     ```
 
+3. **PatchQuantumGenerator**:
+This generator is designed to generate data in patches rather than generating entire samples at once. This approach is commonly used in generative models to facilitate better training dynamics, especially when dealing with high-dimensional data or complex distributions.
+A "patch" refers to a subset of the generated data. Instead of generating entire samples in one go, the generator generates smaller patches of data. Each patch represents a partial view of the data distribution. By generating data in patches, the generator can focus on capturing local patterns and structures within the data distribution, which can lead to more effective training and better overall performance.
+The decision to use four generators is likely motivated by the desire to increase the diversity and richness of the generated data. Each generator is responsible for generating a distinct set of patches, allowing for a more comprehensive exploration of the data distribution.
+By having multiple generators operating concurrently, the model can leverage diverse perspectives and strategies to capture different aspects of the data distribution. This can help prevent mode collapse and improve the overall quality of the generated data.
+
+
 4. **Training the QGAN**:
    The training loop integrates the generation of synthetic data within the forward pass of the generator. The discriminator and generator are trained iteratively, ensuring that the generator improves in producing realistic synthetic data.
 
@@ -104,7 +111,7 @@ You can adjust the number of layers and types of quantum gates (marked as option
     ```
 
 5. **Evaluating the Model**:
-   Various metrics and visual inspection can be used to evaluate the performance of the QGAN and the quality of the generated data.
+   Various metrics and visual inspection can be used to evaluate the performance of the QGAN and the quality of the generated data. In the code we use two metrics: Cluster measure and Propensity score mean-squared error or pmse (Woo M.-J., Reiter J. P., Oganian A., Karr A. F. Global Measures of Data Utility for Microdata Masked for Disclosure Limitation. J Priv Confidentiality. 2009;1(1):111–24)
 
 ## Contributing
 
